@@ -11,12 +11,44 @@ defineProps({
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <h3>
-      You’ve successfully created a project with
-      <a target="_blank" href="https://vitejs.dev/">Vite</a> +
-      <a target="_blank" href="https://vuejs.org/">Vue 3</a>.
+      Now try to login:
+      <a href="http://localhost:8080/oauth2/authorization/google">sign in</a>
+      <button type="button" @click="logout()">logout</button>
     </h3>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout() {
+      console.log(document.cookie)
+      console.log(getCookie('XSRF-TOKEN'))
+      fetch("/api/logout", {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getCookie('JSESSIONID'),
+          'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+        }
+      })
+          .then(response => {
+            location.href = response.url
+          })
+
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+      }
+      }
+
+
+    }
+}
+</script>
 
 <style scoped>
 h1 {

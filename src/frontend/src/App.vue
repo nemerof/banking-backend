@@ -1,6 +1,37 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
+
+export default {
+  components: {
+    HelloWorld,
+    RouterView,
+    RouterLink
+  },
+  computed: {
+    profile: {
+      get() {
+        return this.$store.state.userProfile
+      },
+      set(profile) {
+        this.$store.commit('updateProfile', profile)
+      }
+    }
+  },
+  mounted() {
+    fetch('/api/user', {
+      headers : {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(profile => {
+      this.profile = profile
+      this.$store.commit('updateProfile', this.profile)
+    })
+  }
+}
 </script>
 
 <template>

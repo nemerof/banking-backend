@@ -19,9 +19,9 @@ public class AccountNumber implements Serializable {
     private List<Card> cards;
     private List<Transaction> transactions;
 
-    private UUID userId;
+    private String userId;
 
-    public AccountNumber(LocalDateTime creationTime, List<Pair<String, Integer>> limits, UUID userId, String countryCode) {
+    public AccountNumber(LocalDateTime creationTime, List<Pair<String, Integer>> limits, String userId, String countryCode) {
         this.number = countryCode + HelperMethods.generateNumber(26);
         this.creationTime = creationTime;
         this.limits = limits;

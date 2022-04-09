@@ -1,6 +1,7 @@
 package com.usb.UniversalSavingsBank.entities;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Setter
 @Getter
+@NoArgsConstructor
 public class User implements Serializable {
 
     private String firstName;
@@ -25,8 +27,8 @@ public class User implements Serializable {
 
     private String authProof; // todo email 2-step verification
 
-    private int accountNumber;
-    private UUID userId;
+    private String accountNumber;
+    private String userId;
 
     public User(String firstName, String surname, String email, String address, LocalDate birthDate, String login, String password) {
         this.firstName = firstName;
@@ -38,7 +40,7 @@ public class User implements Serializable {
         this.password = password;
 
         this.age = (int) ChronoUnit.YEARS.between(LocalDate.now(), birthDate);
-        this.userId = UUID.randomUUID();
+        this.userId = UUID.randomUUID().toString();
     }
 
     @Override
@@ -57,7 +59,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return accountNumber == user.accountNumber && userId.equals(user.userId);
+        return accountNumber.equals(user.accountNumber) && userId.equals(user.userId);
     }
 
     @Override
