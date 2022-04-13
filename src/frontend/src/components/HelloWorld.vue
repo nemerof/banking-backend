@@ -12,8 +12,7 @@ defineProps({
     <h1 class="green">{{ msg }}</h1>
     <h3>
       Now try to login:
-      <a href="http://localhost:8080/oauth2/authorization/google">sign in</a>
-      <button type="button" @click="logout()">logout</button>
+
     </h3>
   </div>
 </template>
@@ -24,19 +23,7 @@ export default {
     logout() {
       console.log(document.cookie)
       console.log(getCookie('XSRF-TOKEN'))
-      fetch("/api/logout", {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + getCookie('JSESSIONID'),
-          'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-        }
-      })
-          .then(response => {
-            location.href = response.url
-          })
+
 
       function getCookie(name) {
         const value = `; ${document.cookie}`;

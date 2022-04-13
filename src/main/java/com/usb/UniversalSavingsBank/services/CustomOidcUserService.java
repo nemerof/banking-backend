@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -37,12 +39,9 @@ public class CustomOidcUserService extends OidcUserService {
 
         Optional<User> userOptional = userRepository.findByEmail(googleUserInfo.getEmail());
         if (userOptional.isEmpty()) {
-            User user = new User();
-            user.setUserId(googleUserInfo.getId());
-            user.setEmail(googleUserInfo.getEmail());
-            user.setFirstName(googleUserInfo.getName());
-
-            // set other needed data
+            User user = new User("", "",
+                    oidcUser.getEmail(), oidcUser.getAddress().getFormatted(), LocalDate.now(),
+                    "", "", LocalDateTime.now());
 
             userRepository.save(user);
         }

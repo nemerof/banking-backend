@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public class User implements Serializable {
     private String address;
     private LocalDate birthDate;
     private int age;
+    private LocalDateTime creationTime;
 
     private String login;
     private String password;
@@ -30,7 +32,7 @@ public class User implements Serializable {
     private String accountNumber;
     private String userId;
 
-    public User(String firstName, String surname, String email, String address, LocalDate birthDate, String login, String password) {
+    public User(String firstName, String surname, String email, String address, LocalDate birthDate, String login, String password, LocalDateTime creation) {
         this.firstName = firstName;
         this.surname = surname;
         this.email = email;
@@ -38,6 +40,7 @@ public class User implements Serializable {
         this.birthDate = birthDate;
         this.login = login;
         this.password = password;
+        this.creationTime = creation;
 
         this.age = (int) ChronoUnit.YEARS.between(LocalDate.now(), birthDate);
         this.userId = UUID.randomUUID().toString();

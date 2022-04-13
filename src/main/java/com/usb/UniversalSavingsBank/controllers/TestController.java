@@ -25,7 +25,6 @@ import java.util.Arrays;
 @RestController
 public class TestController {
 
-
 //    private final TokenStore tokenStore;
 
 //    @PostMapping("/api/oauth/logout")
@@ -65,16 +64,18 @@ public class TestController {
     }
 
     @GetMapping("/api/user")
-    public User getAuthenticatedUser(Principal principal) {
+    public User getAuthenticatedUser(HttpServletRequest request, Principal principal) {
         if (principal == null)
             return null;
+
+        request.getSession().setMaxInactiveInterval(300);
         User user = userRepo.findByEmail((String) ((OAuth2AuthenticationToken) principal).getPrincipal().getAttributes().get("email")).get();
         System.out.println(user);
         return user;
     }
 
-    @GetMapping(path = "/api/about")
-    public ResponseEntity<String> get() {
-        return new ResponseEntity<>("success", HttpStatus.OK);
+    @GetMapping("/api/isAuthenticated")
+    public Boolean isAuthenticated(Principal principal) {
+        return principal != null;
     }
 }

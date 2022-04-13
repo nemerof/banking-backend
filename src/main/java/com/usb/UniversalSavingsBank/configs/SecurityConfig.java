@@ -3,10 +3,12 @@ package com.usb.UniversalSavingsBank.configs;
 import com.usb.UniversalSavingsBank.services.CustomOidcUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -36,10 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/api/oauth/logout").permitAll()
-                .antMatchers("/api/about", "/about").authenticated()
+                .antMatchers("/", "/api/oauth/logout", "/api/isAuthenticated").permitAll()
+                .antMatchers("/api/about", "/api/finish-reg").authenticated()
                 .and()
-                .oauth2Login()
+                .oauth2Login().defaultSuccessUrl("/finish-reg", true)
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/api/logout"))
                 .logoutSuccessUrl("/").deleteCookies("JSESSIONID")
@@ -50,16 +52,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .exceptionHandling().authenticationEntryPoint(new EmrExceptionHandler());
+
+        http.sessionManagement().maximumSessions(1).expiredUrl("/login?expired=true");
     }
 
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/hello", "api/oauth/logout");
-    }
-
-    @Bean
-    public AccessDeniedHandler accessDeniedHandler() {
-        return new CustomAccessDeniedHandler();
-    }
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("/hello", "api/oauth/logout");
+//    }
 
     @Bean
     public TokenStore tokenStore() {
