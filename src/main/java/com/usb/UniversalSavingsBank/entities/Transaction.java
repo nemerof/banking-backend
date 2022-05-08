@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class Transaction {
 
+    private String cardId;
     private LocalDateTime performDate;
     private double balanceAfter;
     private String name;
@@ -16,11 +17,13 @@ public class Transaction {
 
     private TransactionType type;
 
-    public Transaction(String name, TransactionType type, int amount) {
+    public Transaction(String name, TransactionType type, int amount, double balanceAfter, String cardId) {
         this.performDate = LocalDateTime.now();
         this.name = name;
         this.amount = amount;
         this.type = type;
+        this.balanceAfter = balanceAfter;
+        this.cardId = cardId;
     }
 
     @Override

@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import Profile from '../views/Profile.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,13 +25,19 @@ const router = createRouter({
             name: 'RegAfterOAuth',
             component: () => import('../views/RegistrationEnd.vue'),
             meta: {requiresAuth: true}
+        },
+        {
+            path: '/profile',
+            name: 'Profile',
+            component: Profile,
+            meta: {requiresAuth: true}
         }
     ]
 })
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        fetch('/api/isAuthenticated')
+        fetch('/api/auth/isAuthenticated')
             .then(response => {
                 response.json().then(r => {
                     if (!r) {
