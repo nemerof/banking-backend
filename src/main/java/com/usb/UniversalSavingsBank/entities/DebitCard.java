@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 // todo Debit card functionality
 public class DebitCard extends Card {
-    public DebitCard(List<Pair<String, Integer>> limits) {
-        super(limits, false);
+    public DebitCard(List<Pair<String, Integer>> limits, String accNumber) {
+        super(limits, false, accNumber);
     }
 }

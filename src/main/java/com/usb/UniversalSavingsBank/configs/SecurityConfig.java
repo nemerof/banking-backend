@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/api/oauth/logout", "/api/isAuthenticated").permitAll()
+                .antMatchers("/", "/api/oauth/logout", "/api/auth/isAuthenticated", "/api/test").permitAll()
                 .antMatchers("/api/about", "/api/finish-reg").authenticated()
                 .and()
                 .oauth2Login().defaultSuccessUrl("/finish-reg", true)

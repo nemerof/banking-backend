@@ -3,6 +3,7 @@ package com.usb.UniversalSavingsBank.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -30,6 +31,8 @@ public class User implements Serializable {
     private String authProof; // todo email 2-step verification
 
     private String accountNumber;
+
+    @Id
     private String userId;
 
     public User(String firstName, String surname, String email, String address, LocalDate birthDate, String login, String password, LocalDateTime creation) {

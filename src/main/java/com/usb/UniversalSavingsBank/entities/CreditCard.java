@@ -11,7 +11,7 @@ import java.util.List;
 // todo Credit card functionality
 public class CreditCard extends Card {
 
-    public CreditCard(List<Pair<String, Integer>> limits) {
-        super(limits, true);
+    public CreditCard(List<Pair<String, Integer>> limits, String accNumber) {
+        super(limits, true, accNumber);
     }
 }
